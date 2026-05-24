@@ -1,4 +1,7 @@
 .DS_Store
+
+# Docker environment file (jangan di-commit, gunakan .env.example sebagai template)
+.env
 .sql
 application/cache/*
 !application/cache/index.html
