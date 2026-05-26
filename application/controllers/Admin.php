@@ -27,6 +27,7 @@ class Admin extends CI_Controller
 		$data['title'] = 'Role';
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
+		$this->db->where('id !=', 1);
 		$data['role'] = $this->db->get('user_role')->result_array();
 
 		$this->load->view('templates/header', $data);
@@ -198,94 +199,6 @@ class Admin extends CI_Controller
 		$this->db->delete('subbidang', ['kdsub' => $kd]);
 		$this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">data berhasil dihapus</div>');
 		redirect('admin/subbidang');
-	}
-
-	public function datapengadaan()
-	{
-		$data['title'] = 'Data Pengadaan';
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-		$this->db->select('*');
-		$this->db->from('pengadaan');
-		$this->db->where('YEAR(pengadaan.tgl)', date('Y'));
-		$this->db->order_by('no_pengadaan', 'ASC');
-		$data['pengadaan'] = $this->db->get()->result_array();
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/sidebar', $data);
-		$this->load->view('templates/topbar', $data);
-		$this->load->view('admin/datapengadaan', $data);
-		$this->load->view('templates/footer');
-	}
-
-	public function editpengadaan($no)
-	{
-		$data['title'] = 'Edit Pengadaan';
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-		$data['pengadaan'] = $this->db->get_where('pengadaan', ['no' => $no])->row_array();
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/sidebar', $data);
-		$this->load->view('templates/topbar', $data);
-		$this->load->view('admin/editpengadaan', $data);
-		$this->load->view('templates/footer');
-	}
-
-	public function editpeng($no)
-	{
-		$peg = $this->db->get('pengadaan')->result_array();
-		$data = [
-
-			'tgl' => $this->input->post('tgl'),
-			'paket' => $this->input->post('paket'),
-			'vendor' => $this->input->post('vendor'),
-			'nilai' => $this->input->post('nilai'),
-			'status' => $this->input->post('status'),
-			'no_pengadaan' => $this->input->post('no_pengadaan'),
-
-
-		];
-
-		$this->db->where('no', $no);
-		$this->db->update('pengadaan', $data);
-		$this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">Data Berhasil dirubah</div>');
-		redirect('admin/datapengadaan');
-	}
-
-	public function hapuspeng($no)
-	{
-		$this->db->delete('pengadaan', ['no' => $no]);
-		$this->session->set_flashdata('messege', '<div class="alert alert-danger" role="alert">Data Berhasil Dihapus</div>');
-		redirect('admin/datapengadaan');
-	}
-
-	public function lappengadaan()
-	{
-		$data['title'] = 'Laporan Pengadaan';
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/sidebar', $data);
-		$this->load->view('templates/topbar', $data);
-		$this->load->view('admin/lappengadaan', $data);
-		$this->load->view('templates/footer');
-	}
-
-	public function lappengexcel()
-	{
-		$data['title'] = 'Laporan Pengadaan';
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-		$tgl1 = $this->input->post('dari');
-		$tgl2 = $this->input->post('sampai');
-		$this->db->select('*');
-		$this->db->from('pengadaan');
-		$this->db->where('tgl BETWEEN "' . date('Y-m-d', strtotime($tgl1)) . '" and "' . date('Y-m-d', strtotime($tgl2)) . '"');
-		$data['peng'] = $this->db->get()->result_array();
-
-		$this->db->select('sum(nilai) as t_nilai, count(no_pengadaan) as t_pengadaan');
-		$this->db->from('pengadaan');
-		$this->db->where('tgl BETWEEN "' . date('Y-m-d', strtotime($tgl1)) . '" and "' . date('Y-m-d', strtotime($tgl2)) . '"');
-		$data['total'] = $this->db->get()->row_array();
-		$this->load->view('admin/lappengexcel', $data);
 	}
 
 	public function resetpass($id)

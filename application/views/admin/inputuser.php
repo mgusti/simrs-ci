@@ -32,7 +32,7 @@
                                     <td>
                                         <a href="<?= base_url('admin/edituser/') . $is['id']?>" class="badge badge-success">Edit</a>
                                         <a href="<?= base_url('admin/deleteuser/') . $is['id']?>" class="badge badge-danger" onclick="return confirm('Apakah anda yakin?')">Delete</a>
-                                        <a href="<?= base_url('admin/resetpass/')?><?= $is['id']?>" class="badge badge-info" onclick="return confirm('Apakah anda yakin?')">Ganti Password</a>
+                                        <a href="<?= base_url('admin/resetpass/')?><?= $is['id']?>" class="badge badge-info" onclick="return confirm('Apakah anda yakin?')">Reset Password</a>
                                     </td>
                                 </tr>
                                 <?php $i++; ?>

@@ -25,42 +25,6 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function pasien()
-    {
-
-        $data['title'] = 'Input Pasien Inap';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $this->load->model('Pasien_model', 'pasien');
-
-        $data['pas'] = $this->pasien->getKamar();
-
-        $data['pasien'] = $this->db->get('kamar_inap1')->result_array();
-        $data['kamar'] = $this->db->get('kamar')->result_array();
-
-        $this->form_validation->set_rules('namapasien', 'Nama Pasien', 'required');
-
-        if ($this->form_validation->run() == false) {
-
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('user/pasien', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $data = [
-                'nama_pasien' => $this->input->post('namapasien'),
-                'kd_kamar' => $this->input->post('kdkamar'),
-                'status' => $this->input->post('status'),
-                'statusdata' => $this->input->post('statusdata'),
-                'stts_pulang' => $this->input->post('statuspulang'),
-            ];
-            $this->db->insert('kamar_inap1', $data);
-            $this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">Sub Menu baru ditambahkan!</div>');
-            redirect('user/pasien');
-        }
-    }
-
     public function view()
     {
 
@@ -129,62 +93,6 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function edituser()
-    {
-        $data['title'] = 'Edit User';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        // $data['jabatan'] = $this->db->get('jabatan')->result_array();
-        // $this->form_validation->set_rules('name', 'name', 'required|trim');
-        // $this->form_validation->set_rules('nik', 'nik', 'required|trim');
-
-        // if ($this->form_validation->run() == false) {
-        //     $this->load->view('templates/header', $data);
-        //     $this->load->view('templates/sidebar', $data);
-        //     $this->load->view('templates/topbar', $data);
-        //     $this->load->view('user/edituser', $data);
-        //     $this->load->view('templates/footer');
-        // } else {
-
-        //     $uploadimg = $_FILES['image']['name'];
-        //     if ($uploadimg) {
-        //         $config['upload_path'] = './assets/img/profile';
-        //         $config['allowed_types'] = 'jpg|png';
-        //         $config['max_size'] = '2000'; //artinya 2mb
-
-        //         $this->load->library('upload', $config);
-
-        //         if ($this->upload->do_upload('image')) {
-
-        //             $lama = $data['user']['image'];
-        //             if ($lama != 'default.jpg') {
-        //                 unlink(FCPATH . 'assets/img/profile/' . $lama);
-        //             }
-        //             $new_image = $this->upload->data('file_name');
-        //             $this->db->set('image', $new_image);
-
-        //         } else {
-        //             $this->session->set_flashdata('messege', '<div class="alert alert-danger" role="alert">periksa lagi ukuran foto</div>');
-        //             redirect('user/edituser');
-        //         }
-
-        //     }
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('nik', $this->input->post('nik'));
-        $this->db->set('tgllahir', $this->input->post('tgllahir'));
-
-        $this->db->set('jenkel', $this->input->post('jenkel'));
-
-        $this->db->where('email', $this->input->post('email'));
-        $this->db->update('user');
-        $this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">Data Berhasil di update</div>');
-        redirect('user/edituser');
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('user/edituser', $data);
-        $this->load->view('templates/footer');
-
-    }
 
     public function gantipassword()
     {

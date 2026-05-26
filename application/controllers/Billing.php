@@ -381,27 +381,6 @@ class Billing extends CI_Controller
         redirect('billing/tindakan/' . $kd);
     }
 
-    public function rekaptagihan()
-    {
-        $data['title'] = 'Rekap Tagihan';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $this->db->select('billing.poli as pol');
-        $this->db->select_sum('detail_billing.biaya');
-        $this->db->from('detail_billing');
-        $this->db->join('billing', 'detail_billing.no_bil = billing.no', 'right');
-        $this->db->group_by('poli');
-        $this->db->where('month(tgl)', $this->input->post('bulan'));
-        $this->db->where('year(tgl)', $this->input->post('tahun'));
-
-        $data['billing'] = $this->db->get()->result_array();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('billing/rekaptagihan', $data);
-        $this->load->view('templates/footer');
-    }
-
     public function cetakrekaptagihanruangan()
     {
         // Sanitize and validate input

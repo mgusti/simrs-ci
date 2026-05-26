@@ -102,7 +102,6 @@ class Auth extends CI_Controller
             'required' => 'Silahkan Pilih Sub Bidang',
         ]);
         if ($this->form_validation->run() == false) {
-            // $data['role'] = $this->db->get('user_role')->result_array();
             $data['subbidang'] = $this->db->get('subbidang')->result_array();
             $data['title'] = 'Registration BILLING';
             $this->load->view('templates/auth_header', $data);
