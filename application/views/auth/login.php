@@ -24,7 +24,6 @@
                     <button type="submit" class="btn btn-primary btn-user btn-block">
                       LOGIN
                     </button>
-                    <a href="<?=base_url('auth/registration')?>" class="btn btn-info btn-user btn-block">DAFTAR</a>
                   </form>
                   <hr>
                     <div class="text-center mb-2">

@@ -95,8 +95,9 @@ class Admin extends CI_Controller
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
 		$data['iuser'] = $this->db->get('user')->result_array();
-
-
+		$data['role'] = $this->db->get('user_role')->result_array();
+		$data['sub'] = $this->db->get('subbidang')->result_array();
+		$data['jabatan'] = $this->db->get('jabatan')->result_array();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
@@ -160,6 +161,29 @@ class Admin extends CI_Controller
 		$this->db->update('user');
 		$this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">Data Berhasil di update</div>');
 		redirect('admin/edituser/' . $id);
+	}
+
+	public function insertuseraksi()
+	{
+		$data = [
+			'name' => $this->input->post('nama'),
+			'email' => $this->input->post('email'),
+			'password' => password_hash('12345678', PASSWORD_DEFAULT),
+			'nik' => $this->input->post('nik'),
+			'tgllahir' => $this->input->post('tgllahir'),
+			'role_id' => $this->input->post('role'),
+			'subbidang' => $this->input->post('subbidang'),
+			'jenkel' => $this->input->post('jenkel'),
+			'is_active' => 1,
+			'pendidikan' => $this->input->post('pendidikan'),
+			'jabatan' => $this->input->post('jabatan'),
+			'image' => 'default.jpg',
+			'date_created' => time()
+		];
+		
+		$this->db->insert('user', $data);
+		$this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">User Berhasil Ditambahkan</div>');
+		redirect('admin/inputuser');
 	}
 
 	public function subbidang()

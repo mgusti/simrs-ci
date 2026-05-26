@@ -78,9 +78,9 @@
 
     <div class="error-container">
         <div class="error-icon"><i class="fas fa-ban"></i></div>
-        <div class="error-code">403</div>
-        <p class="error-message">Access Forbidden</p>
-        <p class="error-desc">Oops! Sepertinya Anda belum Login...</p>
+        <div class="error-code">404</div>
+        <p class="error-message">Halaman Tidak Ditemukan</p>
+        <p class="error-desc">Oops! Sepertinya Anda tersesat...</p>
         <a href="<?=base_url('auth');?>" class="btn-custom"><i class="fas fa-home"></i> Kembali ke Halaman Utama</a>
     </div>
 
